@@ -1,17 +1,12 @@
 package me.ggikko;
 
-import com.sun.tools.internal.ws.wsdl.document.soap.SOAPUse;
-import com.sun.xml.internal.fastinfoset.stax.factory.StAXOutputFactory;
-import jdk.management.resource.ResourceId;
-
-import java.lang.reflect.Array;
-import java.nio.file.DirectoryStream;
-import java.util.*;
-import java.util.function.Consumer;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Comparator;
+import java.util.List;
 import java.util.function.Function;
 import java.util.function.Predicate;
 import java.util.function.Supplier;
-import java.util.stream.Stream;
 
 import static java.util.stream.Collectors.toList;
 
@@ -25,6 +20,11 @@ public class MainTest {
 
         //Test for Function
         final Function<Integer, String> toString = value -> String.valueOf(value);
+
+        int test3 = 123;
+
+        System.out.printf(toString.apply(test3));
+
         String temp = toString.apply(100);
 //        System.out.println(temp);
 
@@ -52,7 +52,6 @@ public class MainTest {
                 124,12,1,24,1,212,44,212,1224,442,4124,12414,1414,35434,52436,32637,234512,334234,214,1234123,42314,
                 1234123,42134,1234,2314,12,41,24132,4132,5,123512,512,35213,5123,5213,5213,5231,5123,5);
 
-
 //        long start2 = System.currentTimeMillis();
 //        for(int value : randomIntList){
 //            if(value > 10) System.out.printf("value : " + String.valueOf(value) + ", ");
@@ -68,8 +67,6 @@ public class MainTest {
 //        long elapsed = System.currentTimeMillis() - start;
 //        System.out.printf(String.valueOf("\nTime : " + elapsed));
 //
-
-
 //        randomIntList.stream()
 //                .filter((weight1, weight2) -> weight1.compareTo(weight2) >0)
 //        )
@@ -84,33 +81,31 @@ public class MainTest {
         Predicate<List<Integer>> test = (List<Integer> es) -> !es.isEmpty();
 //        System.out.printf(String.valueOf(test.test(randomIntList)));
 
-        List<String> strings = Arrays.asList("감자에서먹", "궁극적인", "밥을먹었다", "캐맛", "로봇", "밥집");
+        List<String> strings = Arrays.asList("감자에서먹", "궁극적인", "밥을먹었다", "캐맛", "로봇", "밥집", "아라라", "루루루", "강가에서");
 
-        List<String> saa = strings.parallelStream()
+        long start = System.currentTimeMillis();
+
+        List<String> saa = strings
+                .parallelStream()
                 .filter(s -> !s.contains("에서"))
                 .filter(s -> !s.contains("먹었"))
                 .collect(toList());
-        saa.sort(Haha::fifi);
 
+        start = System.currentTimeMillis() - start;
+        System.out.printf(String.valueOf(start));
         System.out.printf(saa.get(0));
-
-
-
 //        System.out.printf("\nhaha : " + String.valueOf(integerStream));
-
+        Function<String, Integer> function = value -> Integer.valueOf(value);
     }
 
     public static class Haha{
-
         public boolean fifi(String args){
             return args.contains("궁극");
         }
-
         public static int fifi(String s, String s1) {
             return 0;
         }
     }
-
 
     //generic filter
     private static <T> List<T> filter(List<T> list, Predicate<T> filter) {
@@ -120,6 +115,4 @@ public class MainTest {
         }
         return result;
     }
-
-
 }
